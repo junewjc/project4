@@ -53,7 +53,7 @@ class CheckoutView(View):
             return render(self.request, "checkout.template.html", context)
         except ObjectDoesNotExist:
             messages.info(self.request, "You do not have an active order")
-            return redirect("checkout/")
+            return redirect("checkout")
 
     def post(self, *args, **kwargs):
         form = CheckoutForm(self.request.POST or None)
@@ -77,7 +77,7 @@ class CheckoutView(View):
                     else:
                         messages.info(
                             self.request, "No default shipping address available")
-                        return redirect('checkout/')
+                        return redirect('checkout')
                 else:
                     print("User is entering a new shipping address")
                     shipping_address1 = form.cleaned_data.get(
@@ -140,7 +140,7 @@ class CheckoutView(View):
                     else:
                         messages.info(
                             self.request, "No default billing address available")
-                        return redirect('checkout/')
+                        return redirect('checkout')
                 else:
                     print("User is entering a new billing address")
                     billing_address1 = form.cleaned_data.get(
@@ -178,13 +178,13 @@ class CheckoutView(View):
                 payment_option = form.cleaned_data.get('payment_option')
 
                 if payment_option == 'S':
-                    return redirect('payment/', payment_option='stripe')
+                    return redirect('payment', payment_option='stripe')
                 elif payment_option == 'P':
-                    return redirect('payment/', payment_option='paypal')
+                    return redirect('payment', payment_option='paypal')
                 else:
                     messages.warning(
                         self.request, "Invalid payment option selected")
-                    return redirect('checkout/')
+                    return redirect('checkout')
         except ObjectDoesNotExist:
             messages.warning(self.request, "You do not have an active order")
-            return redirect("summary/")
+            return redirect("cart")

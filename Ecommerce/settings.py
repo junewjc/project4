@@ -41,6 +41,8 @@ INSTALLED_APPS = [
     'allauth',
     'allauth.account',
     'allauth.socialaccount',
+    'crispy_forms',
+    'django_countries',
     'shop',
     'cart',
     'checkout'
@@ -137,3 +139,5 @@ AUTHENTICATION_BACKENDS = (
 )
 
 SITE_ID = 1
+
+CRISPY_TEMPLATE_PACK = 'bootstrap4'
