@@ -4,7 +4,7 @@ from django.conf import settings
 from django.contrib import messages
 from django.contrib.auth.decorators import login_required
 from .models import Order, Address, Payment, Coupon
-from shop.models import Item
+from shop.models import Item, UserProfile
 from cart.models import OrderItem
 from django.views.generic import ListView, DetailView, View
 from .forms import CheckoutForm, PaymentForm, CouponForm
@@ -221,7 +221,7 @@ class PaymentView(View):
         else:
             messages.warning(
                 self.request, "You have not added a billing address")
-            return redirect("core:checkout")
+            return redirect("checkout")
 
     def post(self, *args, **kwargs):
         order = Order.objects.get(user=self.request.user, ordered=False)
