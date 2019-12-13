@@ -38,6 +38,7 @@ INSTALLED_APPS = [
     'django.contrib.messages',
     'django.contrib.staticfiles',
     'django.contrib.sites',
+    'storages',
     'allauth',
     'allauth.account',
     'allauth.socialaccount',
@@ -126,6 +127,7 @@ USE_TZ = True
 # Static files (CSS, JavaScript, Images)
 # https://docs.djangoproject.com/en/2.2/howto/static-files/
 
+STATIC_ROOT = os.path.join(BASE_DIR, 'staticfiles')
 STATIC_URL = '/static/'
 STATICFILES_DIRS = [
     os.path.join(BASE_DIR, "static")
@@ -142,5 +144,29 @@ SITE_ID = 1
 
 CRISPY_TEMPLATE_PACK = 'bootstrap4'
 
-STRIPE_PUBLISHABLE_KEY="pk_test_SP9PtXvUnte6PRwVKCLTzxY500UCucQlpy"
-STRIPE_SECRET_KEY="sk_test_018Bf0fgJv7XvKRMTCHQL5Fp00uGR6vMEd"
+STRIPE_PUBLISHABLE_KEY=os.environ["STRIPE_PUBLISHABLE_KEY"]
+STRIPE_SECRET_KEY=os.environ["STRIPE_SECRET_KEY"]
+
+
+AWS_S3_OBJECT_PARAMETERS={
+    'Expires':'Thu, 31 Dec 2099 20:00:00 GMT',
+    'CacheControl':'max-age=946800'
+}
+
+AWS_STORAGE_BUCKET_NAME="finalproject-wjc"
+AWS_S3_REGION_NAME="us-east-1"
+AWS_ACCESS_KEY_ID=os.environ["AWS_ACCESS_KEY_ID"]
+AWS_SECRET_ACCESS_KEY=os.environ["AWS_SECRET_ACCESS_KEY"]
+AWS_S3_CUSTOM_DOMAIN="{}.s3.amazonaws.com".format(AWS_STORAGE_BUCKET_NAME)
+
+
+STATICFILES_LOCATION="static"
+DEFAULT_FILE_STORAGE='custom_storages.MediaStorage'
+
+MEDIAFILES_LOCATION="media"
+
+STATICFILES_STORAGE="custom_storages.StaticStorage"
+
+
+import django_heroku
+django_heroku.settings(locals())
