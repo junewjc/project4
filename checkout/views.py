@@ -65,7 +65,7 @@ class CheckoutView(View):
                 context.update(
                     {'default_billing_address': billing_address_qs[0]})
 
-            return render(self.request, "checkout.template.html", context)
+            return render(self.request, "checkout.html", context)
         except ObjectDoesNotExist:
             messages.info(self.request, "You do not have an active order")
             return redirect("checkout")
@@ -331,3 +331,29 @@ class PaymentView(View):
 
         messages.warning(self.request, "Invalid data received")
         return redirect("/payment/stripe/")
+
+
+def get_coupon(request, code):
+    try:
+        coupon = Coupon.objects.get(code=code)
+        return coupon
+    except ObjectDoesNotExist:
+        messages.info(request, "This coupon does not exist")
+        return redirect("checkout:checkout")
+
+
+class AddCouponView(View):
+    def post(self, *args, **kwargs):
+        form = CouponForm(self.request.POST or None)
+        if form.is_valid():
+            try:
+                code = form.cleaned_data.get('code')
+                order = Order.objects.get(
+                    user=self.request.user, ordered=False)
+                order.coupon = get_coupon(self.request, code)
+                order.save()
+                messages.success(self.request, "Successfully added coupon")
+                return redirect("core:checkout")
+            except ObjectDoesNotExist:
+                messages.info(self.request, "You do not have an active order")
+                return redirect("core:checkout")

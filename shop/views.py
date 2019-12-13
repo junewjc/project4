@@ -3,8 +3,19 @@ from shop.models import Item
 from django.views.generic import ListView, DetailView, View
 # Create your views here.
 
-def catalog(request):
-    all_products = Item.objects.all();
-    return render(request, 'home.template.html',{
-        'all_products':all_products
-    })
+def products(request):
+    context = {
+        'items': Item.objects.all()
+    }
+    return render(request, "product.html", context)
+    
+    
+class ItemDetailView(DetailView):
+    model = Item
+    template_name = "product.html"
+    
+    
+class HomeView(ListView):
+    model = Item
+    paginate_by = 10
+    template_name = "home.html"

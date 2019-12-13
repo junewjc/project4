@@ -1,8 +1,14 @@
+
+
 html,
 body,
 header,
 .carousel {
    height: 60vh;
+}
+
+hr{
+   border-top:0;
 }
 
 @media (max-width: 740px) {
