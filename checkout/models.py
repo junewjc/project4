@@ -3,6 +3,8 @@ from django.conf import settings
 from shop.models import Item
 from cart.models import OrderItem
 from django_countries.fields import CountryField
+from django.db.models.signals import post_save
+from django.db.models import Sum
 
 
 ADDRESS_CHOICES = (
@@ -64,8 +66,7 @@ class Address(models.Model):
 
 class Payment(models.Model):
     stripe_charge_id = models.CharField(max_length=50)
-    user = models.ForeignKey(settings.AUTH_USER_MODEL,
-                             on_delete=models.SET_NULL, blank=True, null=True)
+    user = models.ForeignKey(settings.AUTH_USER_MODEL,on_delete=models.SET_NULL, blank=True, null=True)
     amount = models.FloatField()
     timestamp = models.DateTimeField(auto_now_add=True)
 
@@ -75,7 +76,24 @@ class Payment(models.Model):
 
 class Coupon(models.Model):
     code = models.CharField(max_length=15)
-    amount = models.FloatField()
+    amount = models.DecimalField(max_digits=7, decimal_places=2)
 
     def __str__(self):
         return self.code
+        
+
+class UserProfile(models.Model):
+    user = models.OneToOneField(
+        settings.AUTH_USER_MODEL, on_delete=models.CASCADE)
+    stripe_customer_id = models.CharField(max_length=50, blank=True, null=True)
+    one_click_purchasing = models.BooleanField(default=False)
+
+    def __str__(self):
+        return self.user.username
+        
+def userprofile_receiver(sender, instance, created, *args, **kwargs):
+    if created:
+        userprofile = UserProfile.objects.create(user=instance)
+
+
+post_save.connect(userprofile_receiver, sender=settings.AUTH_USER_MODEL)

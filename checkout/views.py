@@ -3,8 +3,8 @@ from django.core.exceptions import ObjectDoesNotExist
 from django.conf import settings
 from django.contrib import messages
 from django.contrib.auth.decorators import login_required
-from .models import Order, Address, Payment, Coupon
-from shop.models import Item, UserProfile
+from .models import Order, Address, Payment, Coupon, UserProfile
+from shop.models import Item
 from cart.models import OrderItem
 from django.views.generic import ListView, DetailView, View
 from .forms import CheckoutForm, PaymentForm, CouponForm
@@ -68,7 +68,7 @@ class CheckoutView(View):
             return render(self.request, "checkout.html", context)
         except ObjectDoesNotExist:
             messages.info(self.request, "You do not have an active order")
-            return redirect("checkout")
+            return redirect("checkout:checkout")
 
     def post(self, *args, **kwargs):
         form = CheckoutForm(self.request.POST or None)
@@ -92,7 +92,7 @@ class CheckoutView(View):
                     else:
                         messages.info(
                             self.request, "No default shipping address available")
-                        return redirect('checkout')
+                        return redirect('checkout:checkout')
                 else:
                     print("User is entering a new shipping address")
                     shipping_address1 = form.cleaned_data.get(
@@ -155,7 +155,7 @@ class CheckoutView(View):
                     else:
                         messages.info(
                             self.request, "No default billing address available")
-                        return redirect('checkout')
+                        return redirect('checkout:checkout')
                 else:
                     print("User is entering a new billing address")
                     billing_address1 = form.cleaned_data.get(
@@ -190,10 +190,20 @@ class CheckoutView(View):
                         messages.info(
                             self.request, "Please fill in the required billing address fields")
 
+                payment_option = form.cleaned_data.get('payment_option')
+
+                if payment_option == 'S':
+                    return redirect('checkout:payment', payment_option='stripe')
+                elif payment_option == 'P':
+                    return redirect('checkout:payment', payment_option='paypal')
+                else:
+                    messages.warning(
+                        self.request, "Invalid payment option selected")
+                    return redirect('checkout:checkout')
         except ObjectDoesNotExist:
             messages.warning(self.request, "You do not have an active order")
-            return redirect("cart")
-            
+            return redirect("cart:order-summary")
+
 
 class PaymentView(View):
     def get(self, *args, **kwargs):
@@ -221,7 +231,7 @@ class PaymentView(View):
         else:
             messages.warning(
                 self.request, "You have not added a billing address")
-            return redirect("checkout")
+            return redirect("checkout:checkout")
 
     def post(self, *args, **kwargs):
         order = Order.objects.get(user=self.request.user, ordered=False)
@@ -353,7 +363,7 @@ class AddCouponView(View):
                 order.coupon = get_coupon(self.request, code)
                 order.save()
                 messages.success(self.request, "Successfully added coupon")
-                return redirect("core:checkout")
+                return redirect("checkout:checkout")
             except ObjectDoesNotExist:
                 messages.info(self.request, "You do not have an active order")
-                return redirect("core:checkout")
+                return redirect("checkout:checkout")

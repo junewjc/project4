@@ -84,7 +84,7 @@
                   {{ item.discount_price }}
                   {% else %}
                   {{ item.price }}
-                  <a href="{{ object.get_add_to_cart_url }}" class="btn btn-primary btn-md my-0 p mt-2">
+                  <a href="{{ item.get_add_to_cart_url }}" class="btn btn-primary btn-md my-0 p mt-2">
               Add to cart
               <i class="fas fa-shopping-cart ml-1"></i>
             </a>
