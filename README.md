@@ -18,7 +18,7 @@ The deployed version of the website can be found at https://finalproject-django.
 |-----------------------------------|
 |[UX](#UX)                          |
 |[Features](#Features)              |
-|[Technologies Used](#Technologies Used)|
+|[Technologies Used](#TechnologiesUsed)|
 |[Testing](#Testing)                |
 |[Deployment](#Deployment)          |
 |[Credits](#Credits)                |
