@@ -18,11 +18,25 @@ class ItemDetailView(DetailView):
     
 class HomeView(ListView):
     model = Item
-    paginate_by = 10
+    paginate_by = 50
     template_name = "home.html"
+ 
+
+def cables(request):
+    items = Item.objects.filter(category='PC')
+    return render(request, "filter.html",  {'items': items})
     
+def powerbanks(request):
+    items = Item.objects.filter(category='PB')
+    return render(request, "filter.html",  {'items': items})
+    
+def earphones(request):
+    items = Item.objects.filter(category='EP')
+    return render(request, "filter.html",  {'items': items})
     
     
 def search(request):
-    item=Item.objects.filter(name__icontains=request.GET['query'])
-    return render(request, "home.html", {'all_items':item})
+    query = request.GET.get('q')
+    products=Item.objects.filter(name__icontains=query)
+    return render(request, "search.html", {'products': products, 'query':query})
+
