@@ -1,3 +1,5 @@
+[![Build Status](https://travis-ci.com/junewjc/project4.svg?branch=master)](https://travis-ci.com/junewjc/project4)
+
 # [PHONENATICS](https://finalproject-django.herokuapp.com/)</p>
 
 ## Introduction
@@ -18,7 +20,7 @@ The deployed version of the website can be found at https://finalproject-django.
 |-----------------------------------|
 |[UX](#UX)                          |
 |[Features](#Features)              |
-|[Technologies Used](#Technologies Used)|
+|[Technologies Used](#Technologies-Used)|
 |[Testing](#Testing)                |
 |[Deployment](#Deployment)          |
 |[Credits](#Credits)                |
