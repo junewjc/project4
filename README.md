@@ -156,7 +156,7 @@ The project was written on AWS Cloud9 and was saved and tested locally. The webs
 This project was done based on the youtube tutorials by [JustDjango](https://www.youtube.com/channel/UCRM1gWNTDx0SHIqUJygD-kQ/videos)
 
 
-The Bootstrap template was obtained from [MDBootstrap]([JustDjango](https://www.youtube.com/channel/UCRM1gWNTDx0SHIqUJygD-kQ/videos))
+The Bootstrap template was obtained from [MDBootstrap](https://mdbootstrap.com/freebies/)
 
 #### Content
 
