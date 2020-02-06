@@ -183,7 +183,7 @@ MEDIAFILES_LOCATION="media"
 
 STATICFILES_STORAGE="custom_storages.StaticStorage"
 
-EMAIL_BACKEND=os.environ.get('DJANGO_EMAIL_BACKEND', default='django.core.mail.backends.console.EmailBackend')
+EMAIL_BACKEND=os.environ('DJANGO_EMAIL_BACKEND', default='django.core.mail.backends.console.EmailBackend')
 
 
 # import django_heroku
