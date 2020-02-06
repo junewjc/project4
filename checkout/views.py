@@ -211,7 +211,8 @@ class PaymentView(View):
         if order.billing_address:
             context = {
                 'order': order,
-                'DISPLAY_COUPON_FORM': False
+                'DISPLAY_COUPON_FORM': False,
+                'STRIPE_PUBLISHABLE_KEY':settings.STRIPE_PUBLISHABLE_KEY
             }
             userprofile = self.request.user.userprofile
             if userprofile.one_click_purchasing:
@@ -227,6 +228,7 @@ class PaymentView(View):
                     context.update({
                         'card': card_list[0]
                     })
+          
             return render(self.request, "payment.html", context)
         else:
             messages.warning(
