@@ -19,9 +19,6 @@ class Item(models.Model):
     price = models.DecimalField(max_digits=7, decimal_places=2)
     category = models.CharField(choices=CATEGORY_CHOICES, max_length=2)
     description = models.TextField()
-    quantity = models.IntegerField(blank=False, default=0)
-    timestamp = models.DateTimeField(auto_now_add=True, auto_now=False)
-    updated = models.DateTimeField(auto_now_add=False, auto_now=True)
     image = models.ImageField(upload_to='images/', null=True)
 
     def __str__(self):

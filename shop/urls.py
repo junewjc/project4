@@ -5,7 +5,7 @@ app_name = 'shop'
 
 urlpatterns = [
     path('', HomeView.as_view(), name='home'),
-    path('product/<slug>/', ItemDetailView.as_view(), name='product'),
+    path('product/<id>', ItemDetailView, name='product'),
     path('search/', search, name='search'),
     path('cables/', cables, name='cables'), 
     path('powerbanks/', powerbanks, name='powerbanks'),

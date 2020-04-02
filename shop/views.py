@@ -1,8 +1,17 @@
 from django.shortcuts import render
-from shop.models import Item
+from shop.models import Item 
+from checkout.models import OrderItem
 from django.views.generic import ListView, DetailView, View
 from django.db.models import Q
+from django.shortcuts import get_object_or_404
 # Create your views here.
+
+def calculate_no_of_items(request):
+    all_cart_items = OrderItem.objects.filter(user=request.user)
+    count = 0
+    for cart_item in all_cart_items:
+        count += 1
+    return count
 
 def products(request):
     context = {
@@ -10,10 +19,13 @@ def products(request):
     }
     return render(request, "product.html", context)
     
-    
-class ItemDetailView(DetailView):
-    model = Item
-    template_name = "product.html"
+def ItemDetailView(request, id=None):
+    item = get_object_or_404(Item, id=id)
+
+    context = {
+        "item": item
+    }
+    return render(request, "product.html", context)    
     
     
 class HomeView(ListView):

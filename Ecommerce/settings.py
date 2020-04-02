@@ -185,6 +185,7 @@ STATICFILES_STORAGE="custom_storages.StaticStorage"
 
 EMAIL_BACKEND=('django.core.mail.backends.console.EmailBackend')
 
+AUTH_USER_MODEL='auth.User'
 
 # import django_heroku
 # django_heroku.settings(locals())

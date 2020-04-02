@@ -82,9 +82,6 @@
 
               <h4 class="font-weight-bold black-text">
                 <strong>$
-                  {% if item.discount_price %}
-                  {{ item.discount_price }}
-                  {% else %}
                   {{ item.price }}
                   <a href="{{ item.get_add_to_cart_url }}" class="btn btn-primary btn-md my-0 p mt-2">
               Add to cart
